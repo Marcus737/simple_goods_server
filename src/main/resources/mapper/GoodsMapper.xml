@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.ysx.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wei.ysx.entity.Goods">
+        <id column="id" property="id" />
+        <result column="goods_name" property="goodsName" />
+        <result column="code" property="code"/>
+        <result column="price" property="price"/>
+        <result column="manu_name" property="manuName"/>
+        <result column="spec" property="spec"/>
+        <result column="trademark" property="trademark"/>
+        <result column="img" property="img"/>
+        <result column="goods_type" property="goodsType"/>
+        <result column="note" property="note"/>
+        <result column="manu_address" property="manuAddress"/>
+        <result column="enable" property="enable"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        goods_name,
+        code,
+        price,
+        manu_name,
+        spec,
+        trademark,
+        img,
+        goods_type,
+        note,
+        manu_address,
+        enable
+    </sql>
+
+    <select id="isGoodsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        select count(1) from goods where code = #{code} and enable = 1
+    </select>
+
+    <select id="getGoodsByCode" resultType="com.wei.ysx.entity.Goods" parameterType="java.lang.String">
+        select id,
+               goods_name,
+               code,
+               price,
+               manu_name,
+               spec,
+               trademark,
+               img,
+               goods_type,
+               note,
+               manu_address,
+               enable
+        from goods
+        where code = #{code} and enable = true
+    </select>
+
+    <update id="disableGoods" parameterType="java.lang.String" >
+        update goods
+        set enable = false
+        where code = #{code}
+    </update>
+
+    <update id="enableGoods" parameterType="java.lang.String" >
+        update goods
+        set enable = true
+        where code = #{code}
+    </update>
+
+    <update id="updateGoodsByCode" parameterType="com.wei.ysx.entity.Goods">
+        update goods
+        set goods_name   = #{goodsName},
+            price        = #{price},
+            manu_name    = #{manuName},
+            spec         = #{spec},
+            trademark    = #{trademark},
+            img          = #{img},
+            goods_type   = #{goodsType},
+            note         = #{note},
+            manu_address = #{manuAddress},
+            enable       = #{enable}
+        where code = #{code}
+    </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.ysx.mapper.BillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wei.ysx.entity.Bill">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="state" property="state" />
+        <result column="total_price" property="totalPrice" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, state, total_price
+    </sql>
+
+    <select id="listBillByPage" resultType="com.wei.ysx.entity.Bill">
+        select id, create_time, total_price, goods_code_and_num, state from bill order by create_time desc
+    </select>
+
+    <select id="getIncome" resultType="java.lang.String">
+        SELECT   sum(total_price) as income FROM bill GROUP BY  DATE_FORMAT(create_time,'%Y-%m-%d') limit 1
+    </select>
+</mapper>
